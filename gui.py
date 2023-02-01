@@ -55,13 +55,16 @@ def clearEdit(Editx):
     # Editx.configure(fg='black')  # 修改字体颜色，修改其它参数只需要传入对应的参数即可
 
 
+
+
 #图片识别的结果显示在Edit1
 def OcrDisplayCallback(root,Edit1,Edit2):
     clearEdit(Edit1)
     clearEdit(Edit2)
     Temptext = pyperclip.paste()
     Edit1.insert(INSERT,Temptext)
-    root.UpdateBg("请打开图片或截图","./res/image/background1.png")   
+    root.UpdateBg("请打开图片或截图","./res/image/background1.png")
+    root.D['state'] = 'disable'
     #保存到历史记录
 
 def TransCallback(Edit1,Edit2,fm):
@@ -366,6 +369,7 @@ class _Main:  #调用SysTrayIcon的Demo窗口
             time = datetime.datetime.strftime(datetime.datetime.now(),'%Y-%m-%d %H:%M:%S')
             s.histroyF.dict[time] = Temptext
             s.histroyF.SaveRec()
+            s.D['state'] = 'enable'
             logging.debug("已保存历史记录\n"+Temptext)
         else:        
             s.varInFm1.set('未识别到文字信息')
@@ -374,10 +378,12 @@ class _Main:  #调用SysTrayIcon的Demo窗口
         if Itt.Transform_GT(Itt.High_precision):
             s.UpdateBg('请打开图片或截图',"./res/image/background2.png")
             s.varInFm1.set('识别完成，结果已复制到粘贴板')
+            
             Temptext = pyperclip.paste()
             time = datetime.datetime.strftime(datetime.datetime.now(),'%Y-%m-%d %H:%M:%S')
             s.histroyF.dict[time] = Temptext
             s.histroyF.SaveRec()
+            s.D['state'] = 'enable'
             logging.debug("已保存历史记录\n"+Temptext)
         else:
             s.varInFm1.set('未识别到文字信息')
@@ -422,7 +428,7 @@ class _Main:  #调用SysTrayIcon的Demo窗口
             s.UpdateBg("当前无网络连接，请检查后重试","./res/image/background.png") 
             s.changeTool_WithoutIntert(False)
 
-        s.root.after(5000,s.UpdateConnect)       
+        s.root.after(2000,s.UpdateConnect)       
             
     def center_window(s,width=300, height=200):
         """将窗口屏幕居中"""
@@ -438,10 +444,10 @@ class _Main:  #调用SysTrayIcon的Demo窗口
     def showAbout(s):
         """显示关于"""
         AboutObj = tk.Toplevel(s.root)
-        AboutObj.title("关于")
+        AboutObj.title("Pic2Text")
         AboutObj.attributes("-toolwindow", 2) # 去掉窗口最大化最小化按钮，只保留关闭
-        icon = tk.PhotoImage(file = "./res/image/256x256.png")
-        AboutObj.Lb = ttk.Label(AboutObj,anchor='center',image=icon,text=About,foreground='grey', font=('Microsoft Yahei',8),compound="top")
+        icon = tk.PhotoImage(file = "./res/image/128x128.png")
+        AboutObj.Lb = ttk.Label(AboutObj,anchor='center',image=icon,text=About,foreground='black', font=('Microsoft Yahei',8),compound="top")
         x = max(s.root.winfo_x(),0)
         y = max(s.root.winfo_y(),0)
         AboutObj.geometry('%dx%d+%d+%d' % (250, 200,x+(main_windowWidth-250)/2,y+(main_windowHeight-200)/2))
@@ -569,7 +575,7 @@ class _Main:  #调用SysTrayIcon的Demo窗口
        # s.menubar.add_cascade(label="主题", menu = s.menu2)
        # s.menu2.add_radiobutton(label = "浅色",command=lambda:set_theme(light))
        # s.menu2.add_radiobutton(label = "深色",command=lambda:set_theme(dark))
-
+        s.D['state'] = 'disable'
         #显示所有布局
         s.display()  
         '''快捷键'''                  
