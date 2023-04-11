@@ -7,7 +7,7 @@
 
 
 ## 百度云开放接口文档
-如果想发布同款软件，请自行申请百度云开放接口，替换 `ImgTranText.py` 及 `TextTransAPI.py` 中的秘钥内容
+如果想发布同款软件，请自行申请百度云开放接口，替换 `ImgTranText.py` 及 `TextTransAPI.py` 中的秘钥内容（不要使用源码中的密钥信息）
 
 [百度识图 OCR Python SDK](https://cloud.baidu.com/doc/OCR/s/wkibizyjk)
 * ImgTranText.py
